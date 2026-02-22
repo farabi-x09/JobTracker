@@ -22,22 +22,22 @@
 </style>
 </head>
 <body class="bg-base-200">
-    <section class="max-w-[1400px] mx-auto my-15 ">
+    <section class="w-[80%] mx-auto my-15 ">
 
         <h1 class="mb-8 text-3xl font-bold text-[#002C5C] pt-8">Job Application Tracker</h1>
 
         <div id="count_part" class="grid grid-cols-3 gap-4">
             <div id="total_count" class="bg-white p-4 rounded-2xl">
                 <p class="mb-3">Total</p>
-                <p class="text-2xl font-bold">0</p>
+                <p id="total_count_for" class="text-2xl font-bold">0</p>
             </div>
             <div id="interview_count" class="bg-white p-4 rounded-2xl">
                 <p class="mb-3">Interview</p>
-                <p class="text-2xl font-bold text-green-500">0</p>
+                <p id="interview_count_for" class="text-2xl font-bold text-green-500">0</p>
             </div>
             <div id="rejected_count" class="bg-white p-4 rounded-2xl">
                 <p class="mb-3">Rejected</p>
-                <p class="text-2xl font-bold text-red-500">0</p>
+                <p id="rejected_count_for" class="text-2xl font-bold text-red-500">0</p>
             </div>
         </div>
 
@@ -49,20 +49,36 @@
                    <h2 class="text-[#002C5C] text-2xl font-semibold ">
                 Available Jobs
             </h2>
-            <p class="text-[#64748]"><span>0</span> jobs</p>
+            <div>
+                <p class="text-[#64748]"><span id="available_count">0</span> jobs</p>
+
+                <!-- <p class="text-[#64748]"><span>0</span> Jobs of <span id="available_count_2" >0</span></p> -->
+                
+            </div>
             </div>
 
             <!-- Toggle btns -->
             <div class="my-8 space-x-4">
-                <div class="btn bg-white">All</div>
-                <div class="btn bg-white">Interview</div>
-                <div class="btn bg-white">Rejected</div>
+
+                <div onclick="toggle('all_btn')" id="all_btn" class="btn bg-white">All</div>
+                <div onclick="toggle('interview_btn')" id="interview_btn" class="btn bg-white">Interview</div>
+                <div onclick="toggle('rejected_btn')" id="rejected_btn" class="btn bg-white">Rejected</div>
             </div>
          </div>
-         <!-- Cards part -->
+         
 
-         <div id="card_container" class="space-y-10 pb-10">
+         <!-- no jobs part -->
+          <div id="no_jobs_msg" class="hidden">
+              <div class=" flex flex-col  justify-center items-center p-36 bg-white rounded-2xl mb-8">
+                <img src="img/jobs.png" alt="">
+                <p class="text-[#002C5C] text-2xl">No jobs available</p>
+                <p class="text-[#64748B]" >Check back soon for new job opportunities</p>
+            </div>
+          </div>
 
+<!-- Cards part -->
+         <div id="card_container" class="space-y-10 pb-10 ">
+<!-- card 1  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">Mobile First Corp</h2>
                 <p class="text-[#64748B]">React Native Developer</p>
@@ -73,17 +89,19 @@
                     $130,000 - $175,000
                     </p>
                    <p>
-                    <span class="text-[#002C5C] p-2 bg-[#EEF4FF] inline-block">
+                    <span id="status-1" class="text-[#002C5C] p-2 bg-[#EEF4FF] inline-block">
                         Not Applied
                         </span>
                    </p>
                     <p>Build cross-platform mobile applications using React Native. Work on products used by millions of users worldwide.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 2  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">WebFlow Agency</h2>
                 <p class="text-[#64748B]">Web Designer & Developer</p>
@@ -100,11 +118,12 @@ Part-time
                    </p>
                     <p>Create stunning web experiences for high-profile clients. Must have portfolio and experience with modern web design trends.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 3  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">DataViz Solutions</h2>
                 <p class="text-[#64748B]">
@@ -126,11 +145,12 @@ Part-time
                        Transform complex data into compelling visualizations. Required skills: D3.js, React, and strong analytical thinking.
                     </p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 4  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">CloudFirst Inc</h2>
                 <p class="text-[#64748B]">Backend Developer</p>
@@ -148,11 +168,12 @@ Part-time
                     <p>
                       Design and maintain scalable backend systems using Python and AWS. Work with modern DevOps practices and cloud infrastructure.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 5  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">Innovation Labs</h2>
                 <p class="text-[#64748B]">UI/UX Engineer</p>
@@ -169,11 +190,12 @@ Part-time
                    </p>
                     <p>Create beautiful and functional user interfaces for our suite of products. Strong design skills and frontend development expertise required.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 6  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">MegaCorp Solutions</h2>
                 <p class="text-[#64748B]">JavaScript Developer</p>
@@ -190,11 +212,12 @@ Full-time
                    </p>
                     <p>Build enterprise applications with JavaScript and modern frameworks. We offer competitive compensation, health insurance, and professional development opportunities.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 7  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">StartupXYZ</h2>
                 <p class="text-[#64748B]">Full Stack Engineer</p>
@@ -211,11 +234,12 @@ Full-time
                    </p>
                     <p>Join our fast-growing startup and work on our core platform. Experience with Node.js and React required. Great benefits and equity package included.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
+            <!-- card 8  -->
             <div class="card bg-white space-y-6 p-6 rounded-2xl relative">
                 <h2 class="text-[#002C5C] text-2xl font-semibold">TechCorp Industries</h2>
                 <p class="text-[#64748B]">Senior Frontend Developer</p>
@@ -232,10 +256,10 @@ Full-time
                    </p>
                     <p>We are looking for an experienced Frontend Developer to build scalable web applications using React and TypeScript. You will work with a talented team on cutting-edge projects.</p>
                     <div class="card_btn space-x-3">
-                        <div class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
-                        <div class="btn bg-white text-red-500 border-red-500">REJECTED</div>
+                        <div onclick="handleInterview(event)" class="btn bg-white text-green-500 border-green-500">INTERVIEW</div>
+                        <div onclick="handleRejected(event)" class="btn bg-white text-red-500 border-red-500">REJECTED</div>
                     </div>
-                    <div class="absolute right-6"><i class="fa-solid fa-trash-can"></i></div>
+                    <div onclick="handleDelete(event)" class="absolute right-6 top-6"><i class="fa-solid fa-trash-can"></i></div>
             </div>
 
          </div>
