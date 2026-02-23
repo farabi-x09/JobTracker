@@ -37,25 +37,31 @@ function toggle(id) {
 
     let visibleCount = 0;  
 
-    cards.forEach(card => {
+    cards.forEach (card => {
 
         const status = card.querySelector('span.inline-block').innerText;
 
         if (id === "all_btn") {
-            card.style.display = "block";
+
+            card.style.display= "block";
+
+
             visibleCount++;
         }
-        else if (id === "interview_btn") {
+else if (id === "interview_btn") {
 
-            if (status === "Interview") {
-                card.style.display = "block";
+            if (status ==="Interview") {
+                card.style.display ="block";
+
                 visibleCount++;
-            } else {
+            }
+             else 
+                {
                 card.style.display = "none";
             }
 
         }
-        else if (id === "rejected_btn") {
+else if (id === "rejected_btn") {
 
             if (status === "Rejected") {
                 card.style.display = "block";
@@ -67,14 +73,14 @@ function toggle(id) {
         }
     });
 
-    
+    // jodi count 0 hoy
     if (visibleCount === 0) {
         noJobsMsg.classList.remove("hidden");
     } else {
         noJobsMsg.classList.add("hidden");
     }
 
-    
+    // all tha dheaka be
     document.getElementById("available_count").innerText = visibleCount;
 }
 
@@ -99,12 +105,17 @@ function handleInterview(event) {
     }
 
     selectedJobs.push(companyName);
+
     const countDisplay = document.getElementById("interview_count_for");
+
     countDisplay.innerText = parseInt(countDisplay.innerText) + 1;
 
     const statusLabel = card.querySelector('span.inline-block');
+
     statusLabel.innerText = "Interview";
+
     statusLabel.classList.remove('bg-[#EEF4FF]', 'text-[#002C5C]', 'bg-red-100', 'text-red-700');
+
     statusLabel.classList.add('bg-green-100', 'text-green-700');
 
 
@@ -119,7 +130,7 @@ function handleInterview(event) {
 
 
 
-
+// rejected ar part
 
 function handleRejected(event) {
     const btn = event.target;
@@ -145,20 +156,25 @@ function handleRejected(event) {
 
 
     const statusLabel = card.querySelector('span.inline-block');
+
     statusLabel.innerText = "Rejected";
+
     statusLabel.classList.remove('bg-[#EEF4FF]', 'text-[#002C5C]', 'bg-green-100', 'text-green-700');
+
     statusLabel.classList.add('bg-red-100', 'text-red-700');
 
 
     const activeTab = document.querySelector('.btn.bg-blue-500').id;
+
     if (activeTab === "interview_btn") {
+
         card.style.display = "none";
         updateAvailableCountAfterAction();
     }
     
 }
 
-
+// delete
 function handleDelete(event){
     const icon = event.target;
     const card  = icon.closest(".card");
